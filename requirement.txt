@@ -1,0 +1,10 @@
+pandas
+numpy
+python-env
+
+langchain
+pypdf 
+pymupdf
+
+chromadb
+onnxruntime
