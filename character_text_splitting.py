@@ -40,6 +40,7 @@ def llama_character_splitter():
     ).load_data()
 
     nodes=splitter.get_nodes_from_documents(documents)
+    
     for node in nodes:
         print(node)
         print("------------------------------------------------------")

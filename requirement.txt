@@ -6,6 +6,7 @@ langchain
 langchain_text_splitters
 pypdf 
 pymupdf
+python-docx
 
 llama_index
 
