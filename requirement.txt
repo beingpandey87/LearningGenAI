@@ -3,8 +3,11 @@ numpy
 python-env
 
 langchain
+langchain_text_splitters
 pypdf 
 pymupdf
+
+llama_index
 
 chromadb
 onnxruntime
