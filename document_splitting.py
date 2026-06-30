@@ -6,11 +6,14 @@ from langchain_text_splitters import MarkdownHeaderTextSplitter
 from langchain_text_splitters import PythonCodeTextSplitter
 from langchain_core.documents import Document 
 from langchain_text_splitters import PythonCodeTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter, Language
 
 import pymupdf
 from docx import Document as Docx
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
+from unstructured.partition.pdf import partition_pdf
+from unstructured.staging.base import elements_to_json
 
 
 markdown_document = "# Foo\n\n    ## Bar\n\nHi this is Jim\n\nHi this is Joe\n\n ### Boo \n\n Hi this is Lance \n\n ## Baz\n\n Hi this is Molly"
@@ -23,7 +26,7 @@ markdown_table='''
 | P1004 | USB-C Charging Cable | Accessories | 150 | $14.95 | In Stock |
 '''
 
-def read_python_code(path:str):
+def read_code(path:str):
     with open(path, "r") as file:
         content = file.read()
         return(content)
@@ -91,6 +94,25 @@ def python_split(code_data:str):
 
     return code_splitter.create_documents([code_data])
 
+def any_code_split(code_data:str,language:Language):
+    splitter=RecursiveCharacterTextSplitter.from_language(
+        language=language,
+        chunk_size=65,
+        chunk_overlap=0,
+    )
+
+    docs=splitter.create_documents([code_data])
+    return docs
+
+def pdf_split(path:str):
+    elements=partition_pdf(
+        filename=path,
+
+        strategy="hi_res",
+        infer_table_structure=True,
+        model_name="yolox"
+    )
+    return elements
 
 if __name__ == "__main__":  
     #markdown_split()
@@ -101,8 +123,17 @@ if __name__ == "__main__":
     #data=read_docx("test_files\Effective_Threat_Modeling_using_TAM.docx",False)
     #print(data)
 
-    code=read_python_code("character_text_splitting.py")
-    print(code)
-    print("---------------------------------------------------")
-    for doc in python_split(code):
-        print(doc.page_content)
+    #code=read_code("character_text_splitting.py")
+    #print(code)
+    #print("---------------------------------------------------")
+    #for doc in python_split(code):
+        #print(doc.page_content)
+
+    #data=read_code("test_files\sample.json")
+    #output=any_code_split(data,Language.JS)
+    #for doc in output:
+        #print(doc.page_content)
+
+    output=pdf_split("test_files\Effective_Threat_Modeling_using_TAM.pdf")
+    print(output)
+    print(output[-4].metadata.text_as_html)

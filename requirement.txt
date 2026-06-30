@@ -7,6 +7,9 @@ langchain_text_splitters
 pypdf 
 pymupdf
 python-docx
+unstructured[all-docs]
+unstructured[local-inference]
+unstructured-inference
 
 llama_index
 
