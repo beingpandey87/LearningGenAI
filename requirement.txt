@@ -4,6 +4,9 @@ python-env
 
 langchain
 langchain_text_splitters
+langchain-openai
+semantic-chunkers
+
 pypdf 
 pymupdf
 python-docx
