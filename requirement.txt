@@ -20,3 +20,5 @@ chromadb
 onnxruntime
 
 scikit-learn
+
+gensim
